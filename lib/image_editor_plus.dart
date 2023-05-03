@@ -24,8 +24,9 @@ import 'package:image_editor_plus/modules/all_emojies.dart';
 import 'package:image_editor_plus/modules/text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:screenshot/screenshot.dart';
-
+import 'package:image_cropper/image_cropper.dart' as crop;
 import 'modules/colors_picker.dart';
+import 'package:path_provider/path_provider.dart' as path;
 
 late Size viewportSize;
 double viewportRatio = 1;
@@ -608,16 +609,46 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
 
                     var mergedImage = await getMergedImage();
 
-                    Uint8List? croppedImage = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ImageCropper(
-                          image: mergedImage!,
+                    // Uint8List? croppedImage = await Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ImageCropper(
+                    //       image: mergedImage!,
+                    //     ),
+                    //   ),
+                    // );
+
+                    Directory dir = await path.getTemporaryDirectory();
+                    String targetPath =
+                        "${dir.absolute.path}/temp${DateTime.now()}.jpg";
+
+                    File sourcePath =
+                        await File(targetPath).create(recursive: true);
+
+                    sourcePath.writeAsBytesSync(mergedImage!);
+                    var a = await crop.ImageCropper().cropImage(
+                      sourcePath: sourcePath.path,
+                      aspectRatio:
+                          const crop.CropAspectRatio(ratioX: 1, ratioY: 1),
+                      aspectRatioPresets: [crop.CropAspectRatioPreset.square],
+                      uiSettings: [
+                        crop.AndroidUiSettings(
+                          toolbarTitle: 'Edit Photo',
+                          toolbarWidgetColor: Colors.purple,
+                          initAspectRatio: crop.CropAspectRatioPreset.original,
+                          lockAspectRatio: true,
+                          activeControlsWidgetColor: Colors.purple,
                         ),
-                      ),
+                        crop.IOSUiSettings(
+                          aspectRatioLockEnabled: true,
+                          resetAspectRatioEnabled: false,
+                        )
+                      ],
                     );
 
-                    if (croppedImage == null) return;
+                    if (a == null) return;
+
+                    var croppedImage = await File(a.path).readAsBytes();
 
                     flipValue = 0;
                     rotateValue = 0;
