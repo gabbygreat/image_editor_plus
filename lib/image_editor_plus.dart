@@ -628,9 +628,9 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                     sourcePath.writeAsBytesSync(mergedImage!);
                     var a = await crop.ImageCropper().cropImage(
                       sourcePath: sourcePath.path,
-                      aspectRatio:
-                          const crop.CropAspectRatio(ratioX: 1, ratioY: 1),
-                      aspectRatioPresets: [crop.CropAspectRatioPreset.square],
+                      // aspectRatio:
+                      //     const crop.CropAspectRatio(ratioX: 1, ratioY: 1),
+                      // aspectRatioPresets: [crop.CropAspectRatioPreset.square],
                       uiSettings: [
                         crop.AndroidUiSettings(
                           toolbarTitle: 'Edit Photo',
