@@ -633,16 +633,15 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                       // aspectRatioPresets: [crop.CropAspectRatioPreset.square],
                       uiSettings: [
                         crop.AndroidUiSettings(
-                          toolbarTitle: 'Edit Photo',
-                          toolbarWidgetColor: Colors.purple,
+                          toolbarTitle: 'Crop Image',
+                          toolbarColor: Colors.purple,
+                          toolbarWidgetColor: Colors.white,
                           initAspectRatio: crop.CropAspectRatioPreset.original,
                           lockAspectRatio: true,
-                          activeControlsWidgetColor: Colors.purple,
                         ),
                         crop.IOSUiSettings(
-                          aspectRatioLockEnabled: true,
-                          resetAspectRatioEnabled: false,
-                        )
+                          title: 'Cropper',
+                        ),
                       ],
                     );
 
