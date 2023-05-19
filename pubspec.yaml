@@ -23,7 +23,7 @@ dependencies:
   image_editor: ^1.0.2
   colorfilter_generator: ^0.0.8
   hand_signature: ^3.0.0
-  flutter_image_compress: ^2.0.3
+  flutter_image_compress: ^1.1.0
   image_cropper: ^3.0.1
   path_provider: ^2.0.14
 
