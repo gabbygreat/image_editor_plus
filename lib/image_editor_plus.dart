@@ -94,7 +94,7 @@ class ImageEditor extends StatelessWidget {
   static ThemeData theme = ThemeData(
     scaffoldBackgroundColor: Colors.black,
     colorScheme: const ColorScheme.dark(
-      background: Colors.black,
+      surface: Colors.black,
     ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.black87,
@@ -630,7 +630,6 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                       sourcePath: sourcePath.path,
                       aspectRatio:
                           const crop.CropAspectRatio(ratioX: 1, ratioY: 1),
-                      aspectRatioPresets: [crop.CropAspectRatioPreset.square],
                       uiSettings: [
                         crop.AndroidUiSettings(
                           toolbarTitle: 'Edit Photo',
