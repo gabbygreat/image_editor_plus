@@ -6,7 +6,7 @@ import 'package:image_editor_plus/image_editor_plus.dart';
 import 'colors_picker.dart';
 
 class TextEditorImage extends StatefulWidget {
-  const TextEditorImage({Key? key}) : super(key: key);
+  const TextEditorImage({super.key});
 
   @override
   createState() => _TextEditorImageState();
@@ -120,9 +120,9 @@ class _TextEditorImageState extends State<TextEditorImage> {
                             thumbColor: Colors.white,
                             cornerRadius: 10,
                             pickMode: PickMode.color,
-                            colorListener: (int value) {
+                            colorListener: (Color value) {
                               setState(() {
-                                currentColor = Color(value);
+                                currentColor = value;
                               });
                             },
                           ),
@@ -146,9 +146,9 @@ class _TextEditorImageState extends State<TextEditorImage> {
                             thumbColor: Colors.white,
                             cornerRadius: 10,
                             pickMode: PickMode.grey,
-                            colorListener: (int value) {
+                            colorListener: (Color value) {
                               setState(() {
-                                currentColor = Color(value);
+                                currentColor = value;
                               });
                             },
                           ),

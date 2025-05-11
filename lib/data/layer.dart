@@ -37,16 +37,11 @@ class EmojiLayerData extends Layer {
     Key? key,
     this.text = '',
     this.size = 64,
-    Offset? offset,
-    double? opacity,
-    double? rotation,
-    double? scale,
-  }) : super(
-          offset: offset,
-          opacity: opacity,
-          rotation: rotation,
-          scale: scale,
-        );
+    super.offset,
+    super.opacity,
+    super.rotation,
+    super.scale,
+  });
 }
 
 /// Attributes used by [ImageLayer]
@@ -58,16 +53,11 @@ class ImageLayerData extends Layer {
     Key? key,
     required this.image,
     this.size = 64,
-    Offset? offset,
-    double? opacity,
-    double? rotation,
-    double? scale,
-  }) : super(
-          offset: offset,
-          opacity: opacity,
-          rotation: rotation,
-          scale: scale,
-        );
+    super.offset,
+    super.opacity,
+    super.rotation,
+    super.scale,
+  });
 }
 
 /// Attributes used by [TextLayer]
@@ -85,16 +75,11 @@ class TextLayerData extends Layer {
     this.background = Colors.transparent,
     this.backgroundOpacity = 1,
     this.align = TextAlign.left,
-    Offset? offset,
-    double? opacity,
-    double? rotation,
-    double? scale,
-  }) : super(
-          offset: offset,
-          opacity: opacity,
-          rotation: rotation,
-          scale: scale,
-        );
+    super.offset,
+    super.opacity,
+    super.rotation,
+    super.scale,
+  });
 }
 
 /// Attributes used by [BackgroundBlurLayer]
@@ -105,14 +90,9 @@ class BackgroundBlurLayerData extends Layer {
   BackgroundBlurLayerData({
     required this.color,
     required this.radius,
-    Offset? offset,
-    double? opacity,
-    double? rotation,
-    double? scale,
-  }) : super(
-          offset: offset,
-          opacity: opacity,
-          rotation: rotation,
-          scale: scale,
-        );
+    super.offset,
+    super.opacity,
+    super.rotation,
+    super.scale,
+  });
 }

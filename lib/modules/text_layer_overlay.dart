@@ -9,11 +9,11 @@ class TextLayerOverlay extends StatefulWidget {
   final Function onUpdate;
 
   const TextLayerOverlay({
-    Key? key,
+    super.key,
     required this.layer,
     required this.index,
     required this.onUpdate,
-  }) : super(key: key);
+  });
 
   @override
   createState() => _TextLayerOverlayState();
@@ -92,9 +92,9 @@ class _TextLayerOverlayState extends State<TextLayerOverlay> {
                     initialColor: widget.layer.color,
                     cornerRadius: 10,
                     pickMode: PickMode.color,
-                    colorListener: (int value) {
+                    colorListener: (Color value) {
                       setState(() {
-                        widget.layer.color = Color(value);
+                        widget.layer.color = value;
                         widget.onUpdate();
                       });
                     },
@@ -129,9 +129,9 @@ class _TextLayerOverlayState extends State<TextLayerOverlay> {
                     thumbColor: Colors.white,
                     cornerRadius: 10,
                     pickMode: PickMode.color,
-                    colorListener: (int value) {
+                    colorListener: (Color value) {
                       setState(() {
-                        widget.layer.background = Color(value);
+                        widget.layer.background = value;
                         widget.onUpdate();
                       });
                     },

@@ -1,4 +1,4 @@
-library image_editor_plus;
+library;
 
 import 'dart:async';
 import 'dart:io';
@@ -47,7 +47,7 @@ class ImageEditor extends StatelessWidget {
   final bool allowGallery, allowCamera, allowMultiple;
 
   const ImageEditor(
-      {Key? key,
+      {super.key,
       this.image,
       this.images,
       this.savePath,
@@ -55,8 +55,7 @@ class ImageEditor extends StatelessWidget {
       this.allowGallery = false,
       this.allowMultiple = false,
       this.maxLength = 99,
-      Color? appBar})
-      : super(key: key);
+      Color? appBar});
 
   @override
   Widget build(BuildContext context) {
@@ -123,14 +122,14 @@ class MultiImageEditor extends StatefulWidget {
   final bool allowGallery, allowCamera, allowMultiple;
 
   const MultiImageEditor({
-    Key? key,
+    super.key,
     this.images = const [],
     this.savePath,
     this.allowCamera = false,
     this.allowGallery = false,
     this.allowMultiple = false,
     this.maxLength = 99,
-  }) : super(key: key);
+  });
 
   @override
   createState() => _MultiImageEditorState();
@@ -317,13 +316,13 @@ class SingleImageEditor extends StatefulWidget {
   final bool allowCamera, allowGallery;
 
   const SingleImageEditor({
-    Key? key,
+    super.key,
     this.savePath,
     this.image,
     this.imageList,
     this.allowCamera = false,
     this.allowGallery = false,
-  }) : super(key: key);
+  });
 
   @override
   createState() => _SingleImageEditorState();
@@ -414,7 +413,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
 
           var binaryIntList =
               await screenshotController.capture(pixelRatio: pixelRatio);
-
+          if (!mounted) return;
           Navigator.pop(context, binaryIntList);
         },
       ),
@@ -795,10 +794,10 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                                           thumbColor: Colors.white,
                                           cornerRadius: 10,
                                           pickMode: PickMode.color,
-                                          colorListener: (int value) {
+                                          colorListener: (Color value) {
                                             setS(() {
                                               setState(() {
-                                                blurLayer.color = Color(value);
+                                                blurLayer.color = value;
                                               });
                                             });
                                           },
@@ -927,7 +926,7 @@ class _SingleImageEditorState extends State<SingleImageEditor> {
                     //   }
                     // }
                     var mergedImage = await getMergedImage();
-
+                    if (!context.mounted) return;
                     Uint8List? filterAppliedImage = await Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -1008,12 +1007,12 @@ class BottomButton extends StatelessWidget {
   final String text;
 
   const BottomButton({
-    Key? key,
+    super.key,
     this.onTap,
     this.onLongPress,
     required this.icon,
     required this.text,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -1043,7 +1042,7 @@ class BottomButton extends StatelessWidget {
 class ImageCropper extends StatefulWidget {
   final Uint8List image;
 
-  const ImageCropper({Key? key, required this.image}) : super(key: key);
+  const ImageCropper({super.key, required this.image});
 
   @override
   createState() => _ImageCropperState();
@@ -1060,7 +1059,7 @@ class _ImageCropperState extends State<ImageCropper> {
 
   @override
   void initState() {
-    _controller.currentState?.rotate(right: true);
+    _controller.currentState?.rotate();
 
     super.initState();
   }
@@ -1085,7 +1084,7 @@ class _ImageCropperState extends State<ImageCropper> {
                 if (state == null) return;
 
                 var data = await cropImageDataWithNativeLibrary(state: state);
-
+                if (!context.mounted) return;
                 Navigator.pop(context, data);
               },
             ),
@@ -1233,9 +1232,9 @@ class _ImageCropperState extends State<ImageCropper> {
     final Rect? cropRect = state.getCropRect();
     final EditActionDetails action = state.editAction!;
 
-    final int rotateAngle = action.rotateAngle.toInt();
+    final int rotateAngle = action.rotateDegrees.toInt();
     final bool flipHorizontal = action.flipY;
-    final bool flipVertical = action.flipX;
+    final bool flipVertical = action.flipY; // Is this correct?
     final Uint8List img = state.rawImageData;
 
     final image_editor.ImageEditorOption option =
@@ -1246,11 +1245,15 @@ class _ImageCropperState extends State<ImageCropper> {
     }
 
     if (action.needFlip) {
-      option.addOption(image_editor.FlipOption(
-          horizontal: flipHorizontal, vertical: flipVertical));
+      option.addOption(
+        image_editor.FlipOption(
+          horizontal: flipHorizontal,
+          vertical: flipVertical,
+        ),
+      );
     }
 
-    if (action.hasRotateAngle) {
+    if (action.hasRotateDegrees) {
       option.addOption(image_editor.RotateOption(rotateAngle));
     }
 
@@ -1296,10 +1299,10 @@ class ImageFilters extends StatefulWidget {
   final bool useCache;
 
   const ImageFilters({
-    Key? key,
+    super.key,
     required this.image,
     this.useCache = true,
-  }) : super(key: key);
+  });
 
   @override
   createState() => _ImageFiltersState();
@@ -1333,6 +1336,7 @@ class _ImageFiltersState extends State<ImageFilters> {
               icon: const Icon(Icons.check),
               onPressed: () async {
                 var data = await screenshotController.capture();
+                if (!context.mounted) return;
                 Navigator.pop(context, data);
               },
             ),
@@ -1447,13 +1451,13 @@ class FilterAppliedImage extends StatelessWidget {
   final double opacity;
 
   FilterAppliedImage({
-    Key? key,
+    super.key,
     required this.image,
     required this.filter,
     this.fit,
     this.onProcess,
     this.opacity = 1,
-  }) : super(key: key) {
+  }) {
     // process filter in background
     if (onProcess != null) {
       // no filter supplied
@@ -1499,9 +1503,9 @@ class ImageEditorDrawing extends StatefulWidget {
   final Uint8List image;
 
   const ImageEditorDrawing({
-    Key? key,
+    super.key,
     required this.image,
-  }) : super(key: key);
+  });
 
   @override
   State<ImageEditorDrawing> createState() => _ImageEditorDrawingState();
@@ -1610,7 +1614,7 @@ class _ImageEditorDrawingState extends State<ImageEditorDrawing> {
               onPressed: () async {
                 if (control.paths.isEmpty) return Navigator.pop(context);
                 var data = await control.toImage(color: currentColor);
-
+                if (!context.mounted) return;
                 return Navigator.pop(context, data!.buffer.asUint8List());
               },
             ),
@@ -1696,11 +1700,11 @@ class ColorButton extends StatelessWidget {
   final bool isSelected;
 
   const ColorButton({
-    Key? key,
+    super.key,
     required this.color,
     required this.onTap,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
